@@ -3,11 +3,11 @@ import argparse
 import json
 import logging
 import re
-from collections.abc import Generator, Iterable
 import sys
+from collections.abc import Generator, Iterable
 from typing import TypeVar
-import yaml
 
+import yaml
 from case_insensitive_dict import CaseInsensitiveDict
 from docx import Document
 from docx.document import Document as DocumentObject
