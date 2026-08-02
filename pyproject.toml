@@ -1,0 +1,35 @@
+[project]
+name = "find-names"
+version = "0.1.0"
+description = "find the names! (hopefully)"
+authors = [
+    {name = "Mike Hurwitz",email = "dangermike@gmail.com"}
+]
+license = "MIT"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "transformers (>=5.14.1,<6.0.0)",
+    "torch (>=2.13.0,<3.0.0)",
+    "torchvision (>=0.28.0,<0.29.0)",
+    "python-docx (>=1.2.0,<2.0.0)",
+    "case-insensitive-dictionary (>=0.2.1,<0.3.0)",
+    "pyinstaller (>=6.21.0,<7.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pyright (>=1.1.411,<2.0.0)"
+]
+
+[virtualenvs]
+in-project = true
+create = true
+
+[tool.poetry.scripts]
+build = "find_names.pyinstaller:install"
+find_names = "find_names.main:main"
