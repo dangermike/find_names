@@ -25,7 +25,8 @@ The DOCX format breaks the document into *paragraphs*. Paragraphs are further br
 This was built in Python using [poetry](https://python-poetry.org/) for package and environment management. Install poetry and run with `poetry run find_names`.  The first time you run it, the model will be downloaded from [Hugging Face](https://huggingface.co/), which will take a few minutes.
 
 ```plaintext
-usage: find_names [-h] [-q] [-v] [filenames ...]
+usage: find_names [-h] [--format {oneline,json,yaml}] [--all] [-q] [-v]
+                  [filenames ...]
 
 finds names in DOCX files
 
@@ -33,9 +34,12 @@ positional arguments:
   filenames
 
 options:
-  -h, --help     show this help message and exit
-  -q, --quiet
-  -v, --verbose
+  -h, --help            show this help message and exit
+  --format {oneline,json,yaml}
+                        shape of the output
+  --all                 include multiple refs from the same paragraph
+  -q, --quiet           reduce log detail
+  -v, --verbose         increase log detail
 
 output to stdout
 ```
@@ -52,7 +56,7 @@ poetry run find_names -v tmp/*.docx > tmp/out.txt 2>tmp/log.txt
 
 ## Output format
 
-The format is `{name}::{type}: {chapter}:{paragraph}`. The one-line format was chosen specifically to make filtering using [grep](https://www.man7.org/linux/man-pages/man1/grep.1.html) (or [ripgrep](https://github.com/BurntSushi/ripgrep)) possible. For the sake of brevity, instances within a single paragraph are only emitted once.
+The default format is `{name}::{type}: {chapter}:{paragraph}`. The one-line format was chosen specifically to make filtering using [grep](https://www.man7.org/linux/man-pages/man1/grep.1.html) (or [ripgrep](https://github.com/BurntSushi/ripgrep)) possible. For the sake of brevity, instances within a single paragraph are only emitted once.
 
 ```plaintext
 Bell::MISC: 33:168
@@ -66,6 +70,8 @@ Berklee::LOC|PER: 28:72, 28:73
 In the example, `Bengay` was found as both a miscellaneous entity (MISC) and a person (PER). As noted above, the names are normalized for grouping, which means that there can be multiple representations of any name. The first one is chosen as it appears in the text. That means that it may start with a smart quote or other special character.
 
 `Bengay` was also found at multiple locations in the text, in chapter 10, paragraph 66 as well as in chapter 17, paragraph 36.
+
+For machine processing, yaml and json are available as well.
 
 ### types
 
@@ -81,4 +87,3 @@ These are defined in the [model documentation](https://huggingface.co/dslim/dist
 ## Developer's note
 
 While I do write Python occasionally, it is not what I normally do. Be gentle.
-
